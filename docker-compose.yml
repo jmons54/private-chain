@@ -1,0 +1,94 @@
+version: '3.9'
+
+services:
+  explorer:
+    image: alethio/ethereum-lite-explorer
+    restart: always
+    network_mode: host
+    ports:
+      - "80:80"
+      - "80:443"
+    environment:
+      APP_NODE_URL: http://${HOST}:8545
+  node1:
+    image: hyperledger/besu:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - ./network:/var/network
+    command:
+      --data-path=/var/network/node1/data
+      --genesis-file=/var/network/genesis.json
+      --p2p-host=${HOST}
+      --rpc-http-enabled
+      --rpc-http-api=ETH,NET,QBFT 
+      --host-allowlist="*" 
+      --rpc-http-cors-origins="all"
+  node2:
+    image: hyperledger/besu:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - ./network:/var/network
+    command:
+      --data-path=/var/network/node2/data
+      --genesis-file=/var/network/genesis.json
+      --bootnodes='enode://${NODE}@${HOST}:30303'
+      --p2p-host=${HOST}
+      --p2p-port=30304
+      --rpc-http-enabled 
+      --rpc-http-api=ETH,NET,QBFT 
+      --host-allowlist="*" 
+      --rpc-http-cors-origins="all" 
+      --rpc-http-port=8546
+  node3:
+    image: hyperledger/besu:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - ./network:/var/network
+    command:
+      --data-path=/var/network/node3/data
+      --genesis-file=/var/network/genesis.json
+      --bootnodes=enode://${NODE}@${HOST}:30303
+      --p2p-host=${HOST}
+      --p2p-port=30305
+      --rpc-http-enabled
+      --rpc-http-api=ETH,NET,QBFT
+      --host-allowlist="*"
+      --rpc-http-cors-origins="all"
+      --rpc-http-port=8547
+  node4:
+    image: hyperledger/besu:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - ./network:/var/network
+    command:
+      --data-path=/var/network/node4/data
+      --genesis-file=/var/network/genesis.json
+      --bootnodes=enode://${NODE}@${HOST}:30303
+      --p2p-host=${HOST}
+      --p2p-port=30306
+      --rpc-http-enabled
+      --rpc-http-api=ETH,NET,QBFT
+      --host-allowlist="*"
+      --rpc-http-cors-origins="all"
+      --rpc-http-port=8548
+  node5:
+    image: hyperledger/besu:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - ./network:/var/network
+    command:
+      --data-path=/var/network/node5/data
+      --genesis-file=/var/network/genesis.json
+      --bootnodes=enode://${NODE}@${HOST}:30303
+      --p2p-host=${HOST}
+      --p2p-port=30307
+      --rpc-http-enabled
+      --rpc-http-api=ETH,NET,QBFT
+      --host-allowlist="*"
+      --rpc-http-cors-origins="all"
+      --rpc-http-port=8549

@@ -1,0 +1,4 @@
+.env
+/network/**/data/
+!/network/**/data/key
+!/network/**/data/key.pub
