@@ -1,4 +1,4 @@
-# Fincotek Blockchain
+# Private Chain
 
 ## Run from docker
 
